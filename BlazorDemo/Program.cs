@@ -1,10 +1,20 @@
 using BlazorDemo.Components;
+using BlazorDemo.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddHttpClient();
+var connectionString = builder.Configuration.GetConnectionString("PizzaStoreContext");
+builder.Services.AddDbContext<PizzaStoreContext>(options =>
+    options.UseSqlServer(connectionString));
+
+// Register the API controller
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -23,5 +33,21 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+// Map the API controller route
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// Seed the database with initial data
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<PizzaStoreContext>();
+    if (context.Database.EnsureCreated())
+    {
+        // Database was created, seed it with initial data
+        SeedData.Initialize(context);
+    }
+}
 
 app.Run();
