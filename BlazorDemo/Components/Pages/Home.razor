@@ -1,22 +1,28 @@
 ﻿@page "/"
+@rendermode InteractiveServer
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
 <div class="main">
-  <h1>CapBio Pizzas</h1>
-  <ul class="pizza-cards">
-    @if (specials != null)
-    {
-      @foreach (var special in specials)
-      {
-        <li style="background-image: url('@special.ImageUrl')">
-          <div class="pizza-info">
-              <span class="title">@special.Name</span>
-                  @special.Description
-                <span class="price">@special.GetFormattedBasePrice()</span>
-          </div>
-        </li>
-      }
-    }
-  </ul>
+    <h1>CapBio Pizzas</h1>
+    <ul class="pizza-cards">
+        @if (specials != null)
+        {
+            @foreach (var special in specials)
+            {
+                <li @onclick="() => ShowConfigurePizza(special)" style="background-image: url('@special.ImageUrl')">
+                    <div class="pizza-info">
+                        <span class="title">@special.Name</span>
+                        @special.Description
+                        <span class="price">@special.GetFormattedBasePrice()</span>
+                    </div>
+                </li>
+            }
+        }
+    </ul>
 </div>
+
+@if (showConfigurePizzaDialog)
+{
+    <BlazorDemo.Shared.ConfigurePizzaDialog Pizza="configuringPizza"/>
+}

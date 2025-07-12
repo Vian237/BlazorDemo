@@ -4,7 +4,9 @@ namespace BlazorDemo.Components.Pages
 {
     public partial class Home
     {
-        List<PizzaSpecial> specials = new();
+        public List<PizzaSpecial> specials = new();
+        public Pizza configuringPizza;
+        public bool showConfigurePizzaDialog = false;
 
         protected override async Task OnInitializedAsync()
         {
@@ -16,6 +18,19 @@ namespace BlazorDemo.Components.Pages
             {
                 Console.WriteLine($"Error fetching specials: {ex.Message}");
             }
+        }
+
+        public void ShowConfigurePizza(PizzaSpecial special)
+        {
+            Console.WriteLine($"{special.Name}");
+            configuringPizza = new Pizza
+            {
+                Special = special,
+                SpecialId = special.Id,
+                Size = Pizza.DefaultSize
+            };
+            showConfigurePizzaDialog = true;
+            StateHasChanged();
         }
     }
 }
