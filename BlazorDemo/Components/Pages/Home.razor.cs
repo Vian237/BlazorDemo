@@ -5,6 +5,7 @@ namespace BlazorDemo.Components.Pages
     public partial class Home
     {
         public List<PizzaSpecial> specials = new();
+        public Order Order => OrderState.CurrentOrder;
 
         protected override async Task OnInitializedAsync()
         {
