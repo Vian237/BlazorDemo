@@ -35,5 +35,13 @@ namespace BlazorDemo.Services
                 ConfiguringPizza = null;
             }
         }
+
+        public void RemoveConfiguredPizza(Pizza pizza)
+        {
+            if (CurrentOrder.Pizzas.Contains(pizza))
+            {
+                CurrentOrder.Pizzas.Remove(pizza);
+            }
+        }
     }
 }
