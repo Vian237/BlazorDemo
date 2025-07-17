@@ -1,5 +1,6 @@
 using BlazorDemo.Components;
 using BlazorDemo.Data;
+using BlazorDemo.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,8 @@ builder.Services.AddDbContext<PizzaStoreContext>(options =>
 
 // Register the API controller
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<OrderState>();
 
 var app = builder.Build();
 

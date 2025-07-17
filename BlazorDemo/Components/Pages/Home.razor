@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
+@inject OrderState OrderState
 
 <div class="main">
     <h1>CapBio Pizzas</h1>
@@ -10,7 +11,7 @@
         {
             @foreach (var special in specials)
             {
-                <li @onclick="() => ShowConfigurePizza(special)" style="background-image: url('@special.ImageUrl')">
+                <li @onclick="() => OrderState.ShowConfigPizzaDialog(special)" style="background-image: url('@special.ImageUrl')">
                     <div class="pizza-info">
                         <span class="title">@special.Name</span>
                         @special.Description
@@ -22,7 +23,9 @@
     </ul>
 </div>
 
-@if (showConfigurePizzaDialog)
+@if (OrderState.ShowingConfigDialog)
 {
-    <BlazorDemo.Shared.ConfigurePizzaDialog Pizza="configuringPizza"/>
+    <BlazorDemo.Shared.ConfigurePizzaDialog Pizza="OrderState.ConfiguringPizza"
+                                            OnCancel="OrderState.CancelConfigPizzaDialog"
+                                            OnSave="OrderState.ConfirmConfigPizzaDialog" />
 }
