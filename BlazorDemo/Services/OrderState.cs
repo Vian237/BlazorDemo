@@ -43,5 +43,10 @@ namespace BlazorDemo.Services
                 CurrentOrder.Pizzas.Remove(pizza);
             }
         }
+
+        public void ResetOrder()
+        {
+            CurrentOrder = new Order();
+        }
     }
 }
