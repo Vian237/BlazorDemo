@@ -46,11 +46,12 @@ app.MapControllerRoute(
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<PizzaStoreContext>();
-    if (context.Database.EnsureCreated())
-    {
-        // Database was created, seed it with initial data
-        SeedData.Initialize(context);
-    }
+
+    // Ensure the database is created and apply any pending migrations
+    context.Database.Migrate();
+
+    // Database was created, seed it with initial data
+    SeedData.Initialize(context);
 }
 
 app.Run();
