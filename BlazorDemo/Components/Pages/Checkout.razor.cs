@@ -19,7 +19,8 @@ namespace BlazorDemo.Components.Pages
                 //Reset the current order after submission
                 OrderState.ResetOrder();
 
-                NavigationManager.NavigateTo("/myorders");
+                //NavigationManager.NavigateTo($"myorders/{newOrderId}");
+                NavigationManager.NavigateTo($"/myorders");
             }
             catch (Exception ex)
             {

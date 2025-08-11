@@ -57,5 +57,22 @@ namespace BlazorDemo.Controllers
             // Return the ID of the newly created order
             return CreatedAtAction(nameof(GetOrders), new { id = order.Id }, order.Id);
         }
+
+        [HttpGet("{orderId}")]
+        public async Task<ActionResult<OrderWithStatus>> GetOrderWithStatus(int orderId)
+        {
+            var order = await _context.Orders
+                .Where(o => o.Id == orderId)
+                .Include(o => o.Pizzas).ThenInclude(p => p.Special)
+                .Include(o => o.Pizzas).ThenInclude(p => p.Toppings)
+                .ThenInclude(pt => pt.Topping)
+                .FirstOrDefaultAsync();
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return Ok(OrderWithStatus.FromOrder(order));
+        }
     }
 }
