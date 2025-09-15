@@ -7,20 +7,5 @@ namespace BlazorDemo.Shared
     {
         [Parameter]
         public Address? Address { get; set; }
-
-        private ElementReference startName;
-
-        /// <summary>
-        /// Set focus to the first input element when the component is rendered
-        /// </summary>
-        /// <param name="firstRender"></param>
-        /// <returns></returns>        
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            if (firstRender)
-            {
-                await startName.FocusAsync();
-            }
-        }
     }
 }
