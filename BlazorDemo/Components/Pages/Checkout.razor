@@ -6,7 +6,7 @@
 
 
 <div class="main">
-    <EditForm Model="Order.DeliveryAddress" OnValidSubmit="SubmitOrder">
+    <EditForm Model="Order.DeliveryAddress" OnValidSubmit="SubmitOrder" OnInvalidSubmit="ShowError">
         <div class="checkout-cols">
             <div class="checkout-order-details">
                 <h4>Review order</h4>
@@ -19,7 +19,7 @@
                 @if (isError)
                 {
                     <div class="alert alert-danger">
-                        Please enter a name and address.
+                        Please enter a valid name and address.
                     </div>
                 }
 

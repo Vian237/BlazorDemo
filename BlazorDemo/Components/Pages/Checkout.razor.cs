@@ -23,18 +23,26 @@ namespace BlazorDemo.Components.Pages
             IsSubmitting = false;
         }
 
+        protected void ShowError()
+        {
+            isError = true;
+        }
+
         public async Task SubmitOrder()
         {
             try
             {
+                isError = false;
+                IsSubmitting = true;
+
                 var response = await HttpClient.PostAsJsonAsync($"{NavigationManager.BaseUri}api/orders", Order);
                 var newOrderId = await response.Content.ReadFromJsonAsync<int>();
 
                 //Reset the current order after submission
                 OrderState.ResetOrder();
 
-                //NavigationManager.NavigateTo($"myorders/{newOrderId}");
-                NavigationManager.NavigateTo($"/myorders");
+                NavigationManager.NavigateTo($"myorders/{newOrderId}");
+                //NavigationManager.NavigateTo($"/myorders");
             }
             catch (Exception ex)
             {
