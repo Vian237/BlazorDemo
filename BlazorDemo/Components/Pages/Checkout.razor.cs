@@ -6,21 +6,20 @@ namespace BlazorDemo.Components.Pages
     public partial class Checkout
     {
         public Order Order => OrderState.CurrentOrder;
-        public bool IsSubmitting { get; set; } = false;
-        public bool isError = false;
+        public bool isError = true;
 
-        private async Task CheckSubmission(EditContext editContext)
+        private EditContext editContext;
+
+        protected override void OnInitialized()
         {
-            IsSubmitting = true;
-            var model = editContext.Model as Address;
-            isError = string.IsNullOrWhiteSpace(model?.Name) ||
-                      string.IsNullOrWhiteSpace(model?.Street) ||
-                      string.IsNullOrWhiteSpace(model?.ZipCode);
-            if (!isError)
-            {
-                await SubmitOrder();
-            }
-            IsSubmitting = false;
+            editContext = new EditContext(Order.DeliveryAddress);
+            editContext.OnFieldChanged += HandleFieldChanged;
+        }
+
+        private void HandleFieldChanged(object? sender, FieldChangedEventArgs e)
+        {
+            isError = !editContext.Validate();
+            StateHasChanged(); // Trigger UI update
         }
 
         protected void ShowError()
@@ -32,9 +31,6 @@ namespace BlazorDemo.Components.Pages
         {
             try
             {
-                isError = false;
-                IsSubmitting = true;
-
                 var response = await HttpClient.PostAsJsonAsync($"{NavigationManager.BaseUri}api/orders", Order);
                 var newOrderId = await response.Content.ReadFromJsonAsync<int>();
 
@@ -47,6 +43,23 @@ namespace BlazorDemo.Components.Pages
             catch (Exception ex)
             {
                 Console.WriteLine($"Error submitting order: {ex.Message}");
+            }
+        }
+
+        public void Dispose()
+        {
+            editContext.OnFieldChanged -= HandleFieldChanged;
+        }
+
+        private async Task CheckSubmission(EditContext editContext)
+        {
+            var model = editContext.Model as Address;
+            isError = string.IsNullOrWhiteSpace(model?.Name) ||
+                      string.IsNullOrWhiteSpace(model?.Street) ||
+                      string.IsNullOrWhiteSpace(model?.ZipCode);
+            if (!isError)
+            {
+                await SubmitOrder();
             }
         }
     }
