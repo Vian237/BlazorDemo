@@ -4,6 +4,7 @@
     <label>Name:</label>
     <div>
         <InputText @bind-Value="Address.Name" />
+        <ValidationMessage For="@(() => Address.Name)" />
     </div>
 </div>
 
@@ -11,6 +12,7 @@
     <label>Street:</label>
     <div>
         <InputText @bind-Value="Address.Street" />
+        <ValidationMessage For="@(() => Address.Street)" />
     </div>
 </div>
 
@@ -18,6 +20,7 @@
     <label>City:</label>
     <div>
         <InputText @bind-Value="Address.City" />
+        <ValidationMessage For="@(() => Address.City)" />
     </div>
 </div>
 
@@ -25,6 +28,7 @@
     <label>Region:</label>
     <div>
         <InputText @bind-Value="Address.State" />
+        <ValidationMessage For="@(() => Address.State)" />
     </div>
 </div>
 
@@ -32,5 +36,6 @@
     <label>Postal code:</label>
     <div>
         <InputText @bind-Value="Address.ZipCode" />
+        <ValidationMessage For="@(() => Address.ZipCode)" />
     </div>
 </div>
