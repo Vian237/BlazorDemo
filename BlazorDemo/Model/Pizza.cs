@@ -13,10 +13,10 @@
         public int Size { get; set; }
         public List<PizzaTopping> Toppings { get; set; }
 
-        public decimal GetBasePrice()
-        {
-            return (decimal)Size / DefaultSize * Special.BasePrice;
-        }
+        public decimal GetBasePrice() =>
+            Special is { FixedSize: not null }
+                ? Special.BasePrice
+                : (decimal)Size / DefaultSize * Special?.BasePrice ?? 1;
 
         public decimal GetTotalPrice()
         {

@@ -1,4 +1,5 @@
-﻿using BlazorDemo.Model;
+﻿using BlazorDemo.Data;
+using BlazorDemo.Model;
 
 namespace BlazorDemo.Data
 {
@@ -52,7 +53,22 @@ namespace BlazorDemo.Data
                         Description = "It's the pizza you grew up with, but Blazing hot!",
                         ImageUrl="img/pizzas/pepperoni.jpg"
                     }
+
                 });
+                context.SaveChanges();
+            }
+
+            if (!context.Specials.Any(p => p.Name == "Margherita Family Size"))
+            {
+                context.Specials.Add(
+                    new PizzaSpecial
+                    {
+                        Name = "Margherita Family Size",
+                        BasePrice = 14.99M,
+                        Description = "24\" of pure tomatoes and basil",
+                        ImageUrl = "img/pizzas/margherita.jpg",
+                        FixedSize = 24
+                    });
                 context.SaveChanges();
             }
         }

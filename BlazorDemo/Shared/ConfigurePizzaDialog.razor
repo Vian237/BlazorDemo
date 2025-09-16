@@ -8,15 +8,13 @@
         </div>
         <form class="dialog-body">
             <div>
-                <label>Size:</label>
-                <input type="range"
-                       min="@minSize"
-                       max="@maxSize"
-                       step="1"
-                       @bind-value="@Pizza.Size"
-                       @bind-value:event="oninput"/>
+                @if(supportSizing)
+                {
+                    <label>Size:</label>
+                    <input type="range" min="@minSize" max="@maxSize" step="1" @bind-value="@Pizza.Size" @bind-value:event="oninput"/>
+                }
                 <span class="size-label">
-                    @(Pizza.Size)" (@(Pizza.GetFormattedTotalPrice())€)
+                    @(Pizza.Size)" (@(Pizza.GetFormattedTotalPrice()) €)
                 </span>
             </div>
         </form>
