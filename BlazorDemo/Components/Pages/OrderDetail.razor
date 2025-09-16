@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
 @inject HttpClient HttpClient
+@implements IDisposable
 
 <div class="main">
     @if (invalidOrder)
@@ -35,6 +36,14 @@
             </div>
             <div class="track-order-body">
                 <div class="track-order-details">
+
+                    @if(IsOrderIncomplete)
+                    {
+                        <div class="spinner-grow text-danger" style="float:right" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                    }
+
                     @foreach (var pizza in orderWithStatus.Order.Pizzas)
                     {
                         <p>
