@@ -251,7 +251,7 @@ form {
     }
 
 .price::after {
-    content: "€";
+    content: '€';
     font-weight: 300;
     font-size: 1.2rem;
     margin-left: 0.2rem;
@@ -360,7 +360,7 @@ form {
 }
 
     .item-price::before {
-        content: '£';
+        content: '€';
         font-weight: 100;
         margin-right: 0.3rem;
     }
@@ -382,6 +382,10 @@ form {
         color: #fff2cc;
         background-color: rgba(255,255,255,0.1);
     }
+
+.close.text-danger {
+    font-size: 1rem;
+}
 
 .configured-pizza-item {
     display: flex;
@@ -507,7 +511,7 @@ form {
 }
 
     .dialog .topping-price::before {
-        content: '£';
+        content: '€';
     }
 
 .delete-topping {

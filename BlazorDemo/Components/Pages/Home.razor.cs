@@ -1,4 +1,5 @@
 ﻿using BlazorDemo.Model;
+using Microsoft.JSInterop;
 
 namespace BlazorDemo.Components.Pages
 {
@@ -17,6 +18,14 @@ namespace BlazorDemo.Components.Pages
             catch (Exception ex)
             {
                 Console.WriteLine($"Error fetching specials: {ex.Message}");
+            }
+        }
+
+        public async Task RemovePizzaConfirmation (Pizza removePizza)
+        {
+            if (await JavaScript.InvokeAsync<bool>("confirm", $"Are you sure you want to remove {removePizza.Special!.Name} from your order?"))
+            {
+                OrderState.RemoveConfiguredPizza(removePizza);
             }
         }
     }
