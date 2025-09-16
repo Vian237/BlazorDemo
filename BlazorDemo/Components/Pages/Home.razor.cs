@@ -23,7 +23,20 @@ namespace BlazorDemo.Components.Pages
 
         public async Task RemovePizzaConfirmation (Pizza removePizza)
         {
-            if (await JavaScript.InvokeAsync<bool>("confirm", $"Are you sure you want to remove {removePizza.Special!.Name} from your order?"))
+            var messageParams = new
+            {
+                title = "Remove Pizza",
+                text = $"Are you sure you want to remove {removePizza.Special!.Name} from your order?",
+                icon = "warning",
+                buttons = new
+                {
+                    abort = new { text = "No, leave it in my order", value = false },
+                    confirm = new { text = "Yes, remove pizza", value = true }
+                },
+                dangerMode = true
+            };
+
+            if (await JavaScript.InvokeAsync<bool>("swal", messageParams))
             {
                 OrderState.RemoveConfiguredPizza(removePizza);
             }
