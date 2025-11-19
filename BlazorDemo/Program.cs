@@ -45,13 +45,24 @@ app.MapControllerRoute(
 // Seed the database with initial data
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<PizzaStoreContext>();
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<PizzaStoreContext>();
 
-    // Ensure the database is created and apply any pending migrations
-    context.Database.Migrate();
+        // Ensure the database is created and apply any pending migrations
+        context.Database.Migrate();
 
-    // Database was created, seed it with initial data
-    SeedData.Initialize(context);
+        // Database was created, seed it with initial data
+        SeedData.Initialize(context);
+    }
+    catch (Exception e)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(e, "An error occurred creating the DB.");
+        Console.WriteLine("An error occurred creating the DB.");
+    }
+    
 }
 
 app.Run();
